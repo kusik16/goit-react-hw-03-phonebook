@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './contactForm.css';
+import contactForm from './ContactForm.module.css';
 
 class ContactForm extends Component {
   constructor(props) {
@@ -17,10 +17,10 @@ class ContactForm extends Component {
     const { onAddContact } = this.props;
 
     return (
-      <div className="form">
+      <div className={contactForm.form}>
         <label htmlFor="name">Name</label>
         <input
-          className="form__input"
+          className={contactForm.input}
           onChange={e =>
             this.setState(() => {
               return {
@@ -36,7 +36,7 @@ class ContactForm extends Component {
         />
         <label htmlFor="number">Number</label>
         <input
-          className="form__input"
+          className={contactForm.input}
           onChange={e =>
             this.setState(() => {
               return {
@@ -51,7 +51,7 @@ class ContactForm extends Component {
           required
         />
         <button
-          className="form__button"
+          className={contactForm.btn}
           onClick={() => onAddContact(name, number)}
         >
           Add contact
