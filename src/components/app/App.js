@@ -8,13 +8,10 @@ import ContactList from '../contactList/ContactList';
 import app from './App.module.css';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      contacts: [],
-      filter: '',
-    };
-  }
+  state = {
+    contacts: [],
+    filter: '',
+  };
 
   componentDidMount() {
     if (localStorage.getItem('contacts')) {
@@ -32,7 +29,8 @@ class App extends Component {
     });
   };
 
-  onAddContact = (name, number) => {
+  onAddContact = (e, name, number) => {
+    e.preventDefault();
     if (
       this.state.contacts.filter(contact => contact.name === name).length >= 1
     ) {
@@ -82,13 +80,11 @@ class App extends Component {
   render() {
     const { contacts, filter } = this.state;
 
-    const filteredContacts = !filter
-      ? contacts
-      : contacts.filter(
-          contact =>
-            contact.name.toLowerCase().includes(filter.toLowerCase()) ||
-            (contact.number + '').includes(filter)
-        );
+    const filteredContacts = contacts.filter(
+      contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+        (contact.number + '').includes(filter)
+    );
 
     return (
       <div>
