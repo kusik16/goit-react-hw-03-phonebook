@@ -21,6 +21,12 @@ class App extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   onFilter = e => {
     this.setState(() => {
       return {
@@ -52,11 +58,6 @@ class App extends Component {
       id: nanoid(),
     };
 
-    localStorage.setItem(
-      'contacts',
-      JSON.stringify([newUser, ...this.state.contacts])
-    );
-
     this.setState(() => {
       return {
         contacts: [newUser, ...this.state.contacts],
@@ -65,11 +66,6 @@ class App extends Component {
   };
 
   onDeleteContact = id => {
-    localStorage.setItem(
-      'contacts',
-      JSON.stringify(this.state.contacts.filter(contact => contact.id !== id))
-    );
-
     this.setState(() => {
       return {
         contacts: this.state.contacts.filter(contact => contact.id !== id),
@@ -90,12 +86,16 @@ class App extends Component {
       <div>
         <h1 className={app.title}>Phonebook</h1>
         <ContactForm onAddContact={this.onAddContact} />
-        <h2 className={app.title}>Contacts</h2>
-        <Filter onFilter={this.onFilter} />
-        <ContactList
-          filteredContacts={filteredContacts}
-          onDeleteContact={this.onDeleteContact}
-        />
+        {filteredContacts.length > 0 && (
+          <>
+            <h2 className={app.title}>Contacts</h2>
+            <Filter onFilter={this.onFilter} />
+            <ContactList
+              filteredContacts={filteredContacts}
+              onDeleteContact={this.onDeleteContact}
+            />
+          </>
+        )}
       </div>
     );
   }
